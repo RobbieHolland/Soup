@@ -18,12 +18,13 @@ class Creature:
 
         # Characteristics
         self.life = 10000
+        self.positive_life = 0
         self.x = x
         self.y = y 
         self.radius = radius
         self.colour = colour
         self.angle = rd.rand()
-        
+        self.scale = 0
 
         # Genome
         self.weights = self.create_weights(inputs, hidden, output)
