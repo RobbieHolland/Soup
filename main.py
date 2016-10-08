@@ -2,13 +2,13 @@ import pygame
 import sys
 import pygame.gfxdraw
 import time
-
-#import tensorflow as tf
+import creature
+import genetics
 
 pygame.init()
 screen = pygame.display.set_mode((1120,630))
-creatures = TABLE OF CREATURE OBJECTS
-number_of_steps_per_episode = 100
+creatures = [creature.Creature(10, 10, 10, (250, 250, 10), 5, 1, 1), creature.Creature(10, 10, 10, (250, 250, 10), 5, 1, 1)]
+number_of_steps_per_episode = 10000
 
 """
 x = 300
@@ -32,5 +32,8 @@ while True:
   #do physics (moving and bouncing)
   #calculate new fitness
   if step % number_of_steps_per_episode == 0:
+    creatures = genetics.crossover_mutate(creatures, 0.05)
+    for creature in creatures:
+      creature.draw(screen)
+    pygame.display.update()
     #Pass creatures to function that does crossover, culling and then returns a new set of creatures
-
