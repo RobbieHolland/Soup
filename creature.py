@@ -9,6 +9,9 @@ class Creature:
     creature_count = 0
 
     def __init__(self, x, y, radius, colour, inputs, hidden, output):
+        """
+        @param colour
+        """
 
         # Characteristics
         self.life = 0
@@ -22,7 +25,7 @@ class Creature:
 
         creature_count += 1
 
-    def create_weights(inputs, hidden, output):
+    def create_weights(self, inputs, hidden, output):
         mat_list = [np.random.rand(inputs, inputs) for _ in range(hidden)]
         mat_list.append(np.random.rand(output, inputs))
         return np.array(mat_list)
@@ -41,3 +44,5 @@ class Creature:
 
 if __name__ == '__main__':
     print("Test Compilation")
+    c = Creature(1,1,1,1,3,1,1)
+    print(c.weights)
