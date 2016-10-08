@@ -48,12 +48,12 @@ class Creature:
             res = np.mat(weight)* np.mat(inputs)
         return res
 
-    def step(self, width, height):self
-        alpha = self.get_angle()
+    def step(self, inputs, width, height):
+        alpha = self.get_angle(inputs)
         self.x += Creature.velocity * math.cos(alpha) * max_turn
+        self.x = max(min(self.x, width), 0)
         self.y += Creature.velocity * math.sin(alpha) * max_turn
-        
-        
+        self.y = max(min(self.y, height), 0)
     
 
 if __name__ == '__main__':
