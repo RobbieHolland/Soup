@@ -8,19 +8,24 @@ import numpy as np
 class Creature:
     creature_count = 0
 
-    def __init__(self, width, height, radius, colour, weights):
+    def __init__(self, x, y, radius, colour, inputs, hidden, output):
 
         # Characteristics
         self.life = 0
-        self.x = rd.randint(width-height,height-radius)
-        self.y = rd.randint(width-height,height-radius)
+        self.x = x
+        self.y = y 
         self.radius = radius
         self.colour = colour
 
         # Genome
-        self.weights = np.
+        self.weights = self.create_weights(inputs, hidden, output)
 
         creature_count += 1
+
+    def create_weights(inputs, hidden, output):
+        mat_list = [np.random.rand(inputs, inputs) for _ in range(hidden)]
+        mat_list.append(np.random.rand(output, inputs))
+        return np.array(mat_list)
         
     def draw(self, creature, screen):
         x = creature.x
@@ -33,3 +38,6 @@ class Creature:
     def get_count(self):
         return Creature.creature_count
     
+
+if __name__ == '__main__':
+    print("Test Compilation")
