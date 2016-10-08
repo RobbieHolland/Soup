@@ -8,8 +8,8 @@ import math
 
 class Creature:
     # All creatures move at a constant speed
-    velocity = 1
-    max_turn = 0.1
+    velocity = 0.5
+    max_turn = 0.5
 
     def __init__(self, x, y, radius, colour, inputs, hidden, output):
         """
@@ -25,6 +25,7 @@ class Creature:
         self.colour = colour
         self.angle = rd.uniform(0, 1)
         self.scale = 0
+        self.outputs = output
 
         # Genome
         self.weights = self.create_weights(inputs, hidden, output)
@@ -45,11 +46,12 @@ class Creature:
         # Apply weights to inputs to get (output == angle)
         res = inputs
         for weight in self.weights:
-            res = np.mat(weight)* np.mat(inputs)
-        return res
+            res = np.mat(weight)* np.mat(inputs) / len(inputs)
+        return res / len(inputs)
 
     def step(self, inputs, width, height):
-        self.angle += Creature.max_turn * (self.get_angle(inputs) - 0.5)
+        print(self.get_angle(inputs), "angle", self.angle, "adding", Creature.max_turn * (self.get_angle(inputs) - 0.05))
+        self.angle += Creature.max_turn * (self.get_angle(inputs) - 0.5 * Creature.max_turn)
         self.x += Creature.velocity * math.cos(self.angle)
         self.x = max(min(self.x, width), 0)
         self.y += Creature.velocity * math.sin(self.angle)
