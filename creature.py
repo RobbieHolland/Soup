@@ -23,7 +23,7 @@ class Creature:
         self.y = y 
         self.radius = radius
         self.colour = colour
-        self.angle = rd.rand()
+        self.angle = rd.uniform(0, 1)
         self.scale = 0
 
         # Genome
@@ -35,8 +35,8 @@ class Creature:
         return np.array(mat_list)
         
     def draw(self, screen):
-        pygame.gfxdraw.filled_circle(screen, self.x, self.y, self.radius, self.colour)
-        pygame.gfxdraw.aacircle(screen, self.x, self.y, self.radius, self.colour)
+        pygame.gfxdraw.filled_circle(screen, int(self.x), int(self.y), self.radius, self.colour)
+        pygame.gfxdraw.aacircle(screen, int(self.x), int(self.y), self.radius, self.colour)
 
     def get_count(self):
         return Creature.creature_count
@@ -44,15 +44,15 @@ class Creature:
     def get_angle(self, inputs):
         # Apply weights to inputs to get (output == angle)
         res = inputs
-        for weight in weights:
+        for weight in self.weights:
             res = np.mat(weight)* np.mat(inputs)
         return res
 
     def step(self, inputs, width, height):
-        alpha = self.get_angle(inputs)
-        self.x += Creature.velocity * math.cos(alpha) * max_turn
+        self.angle += Creature.max_turn * (self.get_angle(inputs) - 0.5)
+        self.x += Creature.velocity * math.cos(self.angle)
         self.x = max(min(self.x, width), 0)
-        self.y += Creature.velocity * math.sin(alpha) * max_turn
+        self.y += Creature.velocity * math.sin(self.angle)
         self.y = max(min(self.y, height), 0)
     
 
