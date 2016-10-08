@@ -2,6 +2,9 @@ import pygame
 import sys
 import pygame.gfxdraw
 import time
+#import tensorflow as tf
+from pyevolve import G1DList
+from pyevolve import GSimpleGA
 
 pygame.init()
 
