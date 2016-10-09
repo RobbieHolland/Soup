@@ -5,6 +5,8 @@ import time
 import creature
 import genetics
 import numpy as np
+import utility
+import ray
 
 pygame.init()
 width = 1120
@@ -29,6 +31,9 @@ pygame.display.update()
 #pygame.display.update()
 """
 
+
+ray1 = ray.ray([0, 0], [100, 100], [0, 0, 0])
+
 print('Evolution starting')
 step = 0
 start = time.clock()
@@ -45,12 +50,14 @@ while True:
   for creature in creatures:
       creature.step(np.random.rand(5, 1), width, height)
 
+  
 #  if step % number_of_steps_per_episode == 0:
 #    creatures = genetics.crossover_mutate(creatures, 0.05)
 
-  screen.fill([0, 0, 0])
+  screen.fill([180, 180, 180])
   for creature in creatures:
     creature.draw(screen)
+  ray1.draw(screen)
 
   pygame.display.update()
     #Pass creatures to function that does crossover, culling and then returns a new set of creatures
