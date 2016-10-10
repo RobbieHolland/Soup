@@ -17,7 +17,7 @@ class Creature:
         """
 
         # Characteristics
-        self.life = 10000
+        self.life = 0
         self.positive_life = 0
         self.x = x
         self.y = y 
@@ -46,12 +46,17 @@ class Creature:
         # Apply weights to inputs to get (output == angle)
         res = inputs
         for weight in self.weights:
-            res = np.mat(weight)* np.mat(inputs) / len(inputs)
-        return res / len(inputs)
+            res = np.array(np.mat(weight)* np.mat(inputs) - len(res)/4)
+            res = self.sigmoid(res)
+        return res
+
+    def sigmoid(self, x):
+        return 1 / (1 + math.e**(-x))
 
     def step(self, inputs, width, height):
-        print(self.get_angle(inputs), "angle", self.angle, "adding", Creature.max_turn * (self.get_angle(inputs) - 0.05))
-        self.angle += Creature.max_turn * (self.get_angle(inputs) - 0.5 * Creature.max_turn)
+        # print(self.get_angle(inputs), "angle", self.angle, "adding", Creature.max_turn * (self.get_angle(inputs) - 0.5))
+        self.life += self.get_angle(inputs)[0][0] - 0.5
+        self.angle += Creature.max_turn * (self.get_angle(inputs)[0][0] - 0.5)
         self.x += Creature.velocity * math.cos(self.angle)
         self.x = max(min(self.x, width), 0)
         self.y += Creature.velocity * math.sin(self.angle)
@@ -60,5 +65,10 @@ class Creature:
 
 if __name__ == '__main__':
     print("Test Compilation")
-    c = Creature(1,1,1,1,3,1,1)
+    inputs,hidden,outputs = 2,2,1
+    c = Creature(1,1,1,1,inputs,hidden,outputs)
     print(c.weights)
+    print(np.random.rand(inputs, 1))
+    print(c.weights)
+    print(c.get_angle(np.random.rand(inputs,1))[0][0])
+    

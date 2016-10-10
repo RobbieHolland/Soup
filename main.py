@@ -12,11 +12,11 @@ pygame.init()
 width = 1120
 height = 630
 screen = pygame.display.set_mode((width,height))
-number_of_creatures = 10
+number_of_creatures = 3
 creatures = []
 for i in range(number_of_creatures):
-  creatures.append(creature.Creature(10, 10, 10, (250, 250, 10), 5, 1, 1))
-number_of_steps_per_episode = 10000
+  creatures.append(creature.Creature(500, 300, 10, (250, 250, 10), 5, 1, 1))
+number_of_steps_per_episode = 1000
 
 """
 x = 300
@@ -48,11 +48,14 @@ while True:
   #do physics (moving and bouncing)
   #calculate new fitness
   for creature in creatures:
-      creature.step(np.random.rand(5, 1), width, height)
+      creature.step(np.array([[0.5],[0.5],[0.5],[0.5],[0.5]]), width, height)
 
   
-#  if step % number_of_steps_per_episode == 0:
-#    creatures = genetics.crossover_mutate(creatures, 0.05)
+  if step % number_of_steps_per_episode == 0:
+    print("epoch")
+    creatures = genetics.crossover_mutate(creatures, 0.05)
+    for c in creatures:
+      print(c.life)
 
   screen.fill([180, 180, 180])
   for creature in creatures:

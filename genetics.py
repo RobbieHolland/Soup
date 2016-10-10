@@ -24,6 +24,7 @@ def crossover_mutate(creatures, mutation_rate):
   new_creatures = sorted(creatures, key=lambda x: x.life, reverse=True)       #Sort original creatures to serve as new creatures
  
   for creature_index, new_creature in enumerate(new_creatures):
+    new_creature.life = 0
     for layer_index, layer in enumerate(new_creature.weights):
       for row_index, row in enumerate(layer):
         for gene_index, gene in enumerate(row):
