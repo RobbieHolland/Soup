@@ -11,7 +11,7 @@ class Creature:
     velocity = 0.5
     max_turn = 0.5
 
-    def __init__(self, x, y, radius, colour, inputs, hidden, output):
+    def __init__(self, x, y, radius, colour, config):
         """
         @param colour
         """
@@ -25,15 +25,15 @@ class Creature:
         self.colour = colour
         self.angle = rd.uniform(0, 1)
         self.scale = 0
-        self.outputs = output
 
         # Genome
-        self.weights = self.create_weights(inputs, hidden, output)
+        self.weights = self.create_weights(config)
 
-    def create_weights(self, inputs, hidden, output):
-        mat_list = [np.random.rand(inputs, inputs) for _ in range(hidden)]
-        mat_list.append(np.random.rand(output, inputs))
-        return np.array(mat_list)
+    def create_weights(self, config):
+        mat_list = []
+        for i in range(len(config)-1):
+            mat_list.append(np.random.rand(config[i+1], config[i]))
+        return mat_list
         
     def draw(self, screen):
         pygame.gfxdraw.filled_circle(screen, int(self.x), int(self.y), self.radius, self.colour)
@@ -44,11 +44,11 @@ class Creature:
 
     def get_angle(self, inputs):
         # Apply weights to inputs to get (output == angle)
-        res = inputs
         for weight in self.weights:
-            res = np.array(np.mat(weight)* np.mat(inputs) - len(res)/4)
-            res = self.sigmoid(res)
-        return res
+            inputs = np.array(np.mat(weight)* np.mat(inputs)) 
+            inputs = inputs - len(inputs)/4
+            inputs = self.sigmoid(inputs)
+        return inputs
 
     def sigmoid(self, x):
         return 1 / (1 + math.e**(-x))
@@ -65,10 +65,8 @@ class Creature:
 
 if __name__ == '__main__':
     print("Test Compilation")
-    inputs,hidden,outputs = 2,2,1
-    c = Creature(1,1,1,1,inputs,hidden,outputs)
+    c = Creature(1,1,1,1,[2,3,2,1])
     print(c.weights)
-    print(np.random.rand(inputs, 1))
-    print(c.weights)
-    print(c.get_angle(np.random.rand(inputs,1))[0][0])
+    print(np.random.rand(2, 1))
+    print(c.get_angle(np.random.rand(2,1))[0][0])
     
