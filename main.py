@@ -59,7 +59,6 @@ while True:
   #for creature in creatures:
     #  creature.step(np.array([[1],[1],[1]]), width, height)
 
-
   if step % number_of_steps_per_episode == 0:
     print("epoch")
     creatures = genetics.crossover_mutate(creatures, 0.005)
