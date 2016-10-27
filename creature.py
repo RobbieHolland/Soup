@@ -37,6 +37,9 @@ class Creature:
         return mat_list
 
     def draw(self, screen):
+        for sensor in self.sensors:
+            sensor.draw(screen)
+
         pygame.gfxdraw.filled_circle(screen, int(self.position[0]), int(self.position[1]), self.radius, self.colour1)
         pygame.gfxdraw.aacircle(screen, int(self.position[0]), int(self.position[1]), self.radius, self.colour2)
 
@@ -63,6 +66,10 @@ class Creature:
         self.position[0] = max(min(self.position[0], width), 0)
         self.position[1] += Creature.velocity * math.sin(self.angle)
         self.position[1] = max(min(self.position[1], height), 0)
+
+        for sensor in self.sensors:
+            sensor.point1 = self.position
+            sensor.point2 = self.position + sensor.dr
 
 
 if __name__ == '__main__':

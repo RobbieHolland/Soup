@@ -15,8 +15,6 @@ def dist(a, b):
     return ((a[0] - b[0])**2 + (a[1] - b[1])**2)**0.5
 
 def ray_creature_intersect(ray, creature):
-    new_point1 = [0, 0]
-    new_point2 = [0, 0]
     new_point1 = ray.point1 - creature.position;
     new_point2 = ray.point2 - creature.position;
     determinant = new_point1[0] * new_point2[1] - new_point2[0] * new_point1[1]
