@@ -8,7 +8,7 @@ import math
 
 class Creature:
     # All creatures move at a constant speed
-    velocity = 0.5
+    velocity = 1
     max_turn = 0.5
 
     def __init__(self, position, radius, colour1, colour2, config, sensors):
@@ -59,7 +59,7 @@ class Creature:
 
     def step(self, inputs, width, height):
         # print(self.get_angle(inputs), "angle", self.angle, "adding", Creature.max_turn * (self.get_angle(inputs) - 0.5))
-        self.life += self.get_angle(inputs)[0][0] - 0.5
+        self.life -= inputs.sum()
 
         self.angle += Creature.max_turn * (self.get_angle(inputs)[0][0] - 0.5)
         self.position[0] += Creature.velocity * math.cos(self.angle)
@@ -69,7 +69,12 @@ class Creature:
 
         for sensor in self.sensors:
             sensor.point1 = self.position
-            sensor.point2 = self.position + sensor.dr
+            sensor.set_point2(sensor.angle + self.angle)
+
+    def random_relocate(self, width, height):
+        self.position = np.random.rand(2)
+        self.position[0] *= width
+        self.position[1] *= height
 
 
 if __name__ == '__main__':

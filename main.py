@@ -9,16 +9,21 @@ import utility
 import ray
 import math
 
-pygame.init()
+
 width = 1120
 height = 630
+number_of_steps_per_episode = 100
+number_of_episodes = 50
+total_learning_steps = number_of_episodes * number_of_steps_per_episode
+show_display = True
 screen = pygame.display.set_mode((width,height))
-number_of_creatures = 10
+number_of_creatures = 15
 creatures = []
-
-number_sensors_per_creature = 10
+number_sensors_per_creature = 32
 current_angle = 0
 sensor_length = 50
+
+
 delta_angle = 2*math.pi / number_sensors_per_creature
 for i in range(number_of_creatures):
     current_angle = 0
@@ -28,7 +33,8 @@ for i in range(number_of_creatures):
         sensors.append(ray.ray(np.array([0.0, 0.0]), sensor_length, current_angle, [100, 100, 100]))
     creatures.append(creature.Creature(np.array([500.0, 500.0]), 10, (250, 250, 10), (0, 0, 0), [number_sensors_per_creature, 2, 3, 1],
                      sensors))
-number_of_steps_per_episode = 40
+    creatures[i].random_relocate(width, height)
+
 
 """
 x = 300
@@ -42,7 +48,8 @@ pygame.display.update()
 #pygame.display.update()
 """
 
-
+if show_display:
+    pygame.init()
 
 print('Evolution starting')
 step = 0
@@ -51,7 +58,7 @@ skip = 10
 
 while True:
   step += 1
-  if step > 100000:
+  if step > total_learning_steps:
       break;
 
   utility.step_creatures(creatures, width, height);
@@ -62,15 +69,23 @@ while True:
   if step % number_of_steps_per_episode == 0:
     print("epoch")
     creatures = genetics.crossover_mutate(creatures, 0.005)
+    print("Best fitness: " + str(creatures[number_of_creatures - 1].life))
+    median_fitness = creatures[int(number_of_creatures / 2)].life
+    average_fitness = 0;
     for c in creatures:
-      print(c.life)
+      average_fitness += c.life
+      c.random_relocate(width, height)
       c.life = 0
+    average_fitness /= number_of_creatures
 
-  screen.fill([180, 180, 180])
-  for creature in creatures:
-    creature.draw(screen)
+    print("Average fitness: " + str(average_fitness))
+    print("Median fitness: " + str(median_fitness))
 
-  pygame.display.update()
+  if show_display:
+      screen.fill([180, 180, 180])
+      for creature in creatures:
+        creature.draw(screen)
+      pygame.display.update()
 
 print(step)
 for c in creatures:
