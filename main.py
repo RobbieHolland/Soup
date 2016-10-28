@@ -13,7 +13,7 @@ pygame.init()
 width = 1120
 height = 630
 screen = pygame.display.set_mode((width,height))
-number_of_creatures = 20
+number_of_creatures = 10
 creatures = []
 
 number_sensors_per_creature = 10
@@ -26,8 +26,8 @@ for i in range(number_of_creatures):
     for j in range(number_sensors_per_creature):
         current_angle += delta_angle
         sensors.append(ray.ray(np.array([0.0, 0.0]), np.array([sensor_length * math.cos(current_angle), sensor_length * math.sin(current_angle)]), [100, 100, 100]))
-        creatures.append(creature.Creature(np.array([500.0, 500.0]), 10, (250, 250, 10), (0, 0, 0), [number_sensors_per_creature, 2, 3, 1],
-                         sensors))
+    creatures.append(creature.Creature(np.array([500.0, 500.0]), 10, (250, 250, 10), (0, 0, 0), [number_sensors_per_creature, 2, 3, 1],
+                     sensors))
 number_of_steps_per_episode = 40
 
 """
