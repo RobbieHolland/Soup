@@ -4,19 +4,24 @@ import copy
 import math
 
 def crossover_mutate(creatures, mutation_rate):
-  #Calculate scale for each creature to determine how likely they are to pass on their genes
+  #Calculate fitness scale for each creature to determine how likely they are to pass on their genes
+  #Find mininum fitness
   min_fitness = math.inf
   for creature in creatures:
     min_fitness = min(min_fitness, creature.life)
+  #Positive shift life to remove any negative life
   for creature in creatures:
     creature.positive_life = creature.life - min_fitness
+  #Find total fitness of all creatures
   total_positive_life = sum(creature.positive_life for creature in creatures)
-  if total_positive_life != 0:
+  if total_positive_life != 0: 
     for creature in creatures:
+      #Find proportion of total life that creature held (i.e. their gene share)
       creature.scale = creature.positive_life / total_positive_life
-  else:
+  else: #Edge case: total_life = 0 would incur a divide by 0
     num_creatures = len(creatures)
     for creature in creatures:
+      #All creatures must have attained 0 life so should be given equal gene shares
       creature.scale = 1 / num_creatures
 
   copy_creatures = copy.deepcopy(creatures) #Deep copy creatures
