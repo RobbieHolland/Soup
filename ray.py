@@ -24,6 +24,11 @@ class ray:
         self.angle = angle
         self.point1 = point1
         self.set_point2(self.angle)
+        self.detecting = False
+        self.detecting_colour = [255, 0, 0]
 
     def draw(self, screen):
-        pygame.draw.line(screen, self.colour, (int(self.point1[0]), int(self.point1[1])), (int(self.point2[0]), int(self.point2[1])))
+        colour = self.colour;
+        if self.detecting:
+            colour = self.detecting_colour
+        pygame.draw.line(screen, colour, (int(self.point1[0]), int(self.point1[1])), (int(self.point2[0]), int(self.point2[1])))
