@@ -66,10 +66,6 @@ class Creature:
         self.position[0] = max(min(self.position[0], width), 0)
         self.position[1] += Creature.velocity * math.sin(self.angle)
         self.position[1] = max(min(self.position[1], height), 0)
-        
-        for sensor in self.sensors:
-            sensor.point1 = self.position
-            sensor.set_point2(sensor.angle + self.angle)
 
     def random_relocate(self, width, height):
         self.position = np.random.rand(2)

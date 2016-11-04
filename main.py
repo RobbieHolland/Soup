@@ -8,18 +8,18 @@ import numpy as np
 import utility
 import ray
 import math
-from pylab import *
+# from pylab import *
 
-width = 200
-height = 100
+width = 300
+height = 300
 number_of_steps_per_episode = 1000
 number_of_episodes = 20
 total_learning_steps = number_of_episodes * number_of_steps_per_episode
 show_display = True
 screen = pygame.display.set_mode((width,height))
-number_of_creatures = 3
+number_of_creatures = 10
 creatures = []
-number_sensors_per_creature = 120
+number_sensors_per_creature = 2 * number_of_creatures
 current_angle = 0
 sensor_length = 100
 
